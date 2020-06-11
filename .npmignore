@@ -4,3 +4,4 @@ docs/
 example/
 rollup.config.js
 tsconfig.json
+.idea/

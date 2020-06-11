@@ -14,6 +14,7 @@ export default [
             declaration: true,
             declarationDir: "dist",
             include: ["src/index.tsx",],
+            rootDir: "src/"
         }), del({targets: "dist/*"})]
     },
     {
