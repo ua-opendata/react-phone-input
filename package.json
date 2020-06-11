@@ -4,7 +4,7 @@
   "type": "module",
   "description": "React Phone Input for ukranian phone mask",
   "main": "dist/index.js",
-  "typings": "index.d.ts",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c",
