@@ -1,5 +1,5 @@
 import * as React from "react";
-import {helper} from "dom-event-simulate";
+import * as helper from "dom-event-simulate";
 
 class TestCase {
     constructor(
@@ -10,7 +10,8 @@ class TestCase {
     }
 
     public run(input: HTMLInputElement): Promise<TestCase> {
-        helper.formInput(input, this.actual);
+        const h = ('helper' in helper) ? (helper as any).helper : (helper as any).default.helper;
+        h.formInput(input, this.actual);
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve(new TestCase(this.actual, this.expected, (input.value === this.expected)));

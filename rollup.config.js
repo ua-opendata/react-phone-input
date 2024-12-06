@@ -1,6 +1,6 @@
 // rollup.config.js
 import typescript from '@rollup/plugin-typescript';
-import del from 'rollup-plugin-delete'
+import esmImportToUrl from 'rollup-plugin-esm-import-to-url';
 
 export default [
     {
@@ -14,25 +14,26 @@ export default [
             declaration: true,
             declarationDir: "dist",
             include: ["src/index.tsx",],
-            rootDir: "src/"
-        }), del({targets: "dist/*"})]
+            // rootDir: "src/"
+        })]
     },
     {
         input: 'example/index.tsx',
         output: {
             file: 'docs/bundle.js',
-            format: 'iife',
-            globals: {
-                'react': "React",
-                'react-dom': "ReactDOM",
-                'react-input-mask': "ReactInputMask",
-                'dom-event-simulate': "_macaca_simulate",
-            },
+            format: 'esm',
         },
-        external: ['react', 'react-dom', 'react-input-mask', 'dom-event-simulate'],
+        external: [],
         plugins: [
             typescript(),
-            del({targets: "docs/bundle.js"}),
+            esmImportToUrl({
+                imports: {
+                    'react': 'https://esm.sh/react@18/?dev',
+                    'react-dom/client': 'https://esm.sh/react-dom@18/client?dev',
+                    'react-input-mask': 'https://esm.sh/react-input-mask@2?dev',
+                    'dom-event-simulate': 'https://esm.sh/dom-event-simulate@1.2.1?dev',
+                },
+            })
         ],
     },
 ]

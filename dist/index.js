@@ -1,4 +1,4 @@
-import { forwardRef, createElement } from 'react';
+import * as React from 'react';
 import InputMask from 'react-input-mask';
 
 const beforeMaskedValueChange = (nextState, prevState, userInput, maskOptions) => {
@@ -33,8 +33,8 @@ const PhoneInputDefaultProps = Object.freeze({
     alwaysShowMask: false,
     inputMode: "tel",
 });
-const PhoneInput = forwardRef((props, ref) => {
-    return (createElement(InputMask, Object.assign({ maskChar: null }, props, PhoneInputDefaultProps)));
+const PhoneInput = React.forwardRef((props, ref) => {
+    return (React.createElement(InputMask, Object.assign({ maskChar: null }, props, PhoneInputDefaultProps)));
 });
 
 export { PhoneInput, PhoneInputDefaultProps, beforeMaskedValueChange };

@@ -28,26 +28,26 @@
   },
   "homepage": "https://github.com/ua-opendata/react-phone-input#readme",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^13.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.1",
-    "@rollup/plugin-typescript": "^4.1.2",
-    "@types/react": "^16.9.36",
-    "@types/react-dom": "^16.9.8",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-typescript": "^12.1.1",
+    "rollup-plugin-esm-import-to-url": "^2.1.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.1",
     "@types/react-input-mask": "^2.0.5",
-    "bootstrap": "^4.5.0",
+    "bootstrap": "^5.3.3",
     "dom-event-simulate": "^1.2.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-input-mask": "^2.0.4",
-    "rollup": "^2.15.0",
-    "rollup-plugin-delete": "^2.0.0",
+    "rollup": "^4.28.1",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.5"
+    "typescript": "^5.7.2"
   },
   "peerDependencies": {
     "@types/react-input-mask": "^2.0.5",
-    "react-input-mask": "^2.0.4",
-    "react": "^16.8"
+    "react": "^16.8.6 || 17.x || 18.x || 19.x",
+    "react-input-mask": "^2.0.4"
   },
-  "dependencies": {}
+  "dependencies": {
+  }
 }

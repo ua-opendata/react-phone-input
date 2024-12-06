@@ -1,8 +1,7 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as ReactDOM from 'react-dom/client';
 import {PhoneInput} from "../src";
 import {TestList} from "./test-list";
-
 
 const App: React.FC<{}> = () => {
     const [input, setInput] = React.useState<HTMLInputElement | null>(null);
@@ -28,4 +27,5 @@ const App: React.FC<{}> = () => {
     </div>
 }
 
-ReactDOM.render(<App/>, document.querySelector('#app'));
+const root = ReactDOM.createRoot(document.querySelector('#app') as any);
+root.render(<App />);
