@@ -9,7 +9,7 @@ export default [
             dir: 'dist',
             format: 'es'
         },
-        external: ['react', 'react-input-mask',],
+        external: ['react', '@react-input/mask',],
         plugins: [typescript({
             declaration: true,
             declarationDir: "dist",
@@ -28,9 +28,9 @@ export default [
             typescript(),
             esmImportToUrl({
                 imports: {
-                    'react': 'https://esm.sh/react@18/?dev',
-                    'react-dom/client': 'https://esm.sh/react-dom@18/client?dev',
-                    'react-input-mask': 'https://esm.sh/react-input-mask@2?dev',
+                    'react': 'https://esm.sh/react@19/?dev',
+                    'react-dom/client': 'https://esm.sh/react-dom@19/client?dev',
+                    '@react-input/mask': 'https://esm.sh/@react-input/mask@2?dev',
                     'dom-event-simulate': 'https://esm.sh/dom-event-simulate@1.2.1?dev',
                 },
             })

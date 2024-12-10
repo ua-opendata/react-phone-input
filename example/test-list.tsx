@@ -44,8 +44,11 @@ export const TestCaseElement: React.FC<{ value: TestCase }> = ({value}) => {
     );
 };
 
-export const TestList: React.FC<{ input: HTMLInputElement }> = ({input}) => {
+export const TestList: React.FC<{ input: HTMLInputElement | null }> = ({input}) => {
     const [tests, setTests] = React.useState<TestCase[]>(TestCaseCollection);
+    if (!input) {
+        return;
+    }
     const handleTest = async () => {
         for(let k in tests) {
             const test = await tests[k].run(input);

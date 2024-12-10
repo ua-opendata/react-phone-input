@@ -1,40 +1,32 @@
 import * as React from 'react';
-import InputMask from 'react-input-mask';
+import { InputMask } from '@react-input/mask';
 
-const beforeMaskedValueChange = (nextState, prevState, userInput, maskOptions) => {
-    if (userInput) {
-        const match = userInput.replace(/\D/g, '').match(/^(?:38)?0(\d{1,9})/);
-        if (match && "string" === typeof maskOptions.mask) {
-            const userNumbers = match[1].split('');
-            return Object.assign(Object.assign({}, nextState), { value: maskOptions.mask.replace(/9/g, (s) => {
-                    const userNumber = userNumbers.shift();
-                    return (userNumber === undefined) ? s : userNumber;
-                }) });
-        }
+const track = (trackingData) => {
+    if (trackingData.inputType !== "insert") {
+        return trackingData.data;
     }
-    if (nextState.value.match(/^\+38 \(038\)/)) {
-        return {
-            value: '',
-            selection: { start: 7, end: 7, }
-        };
+    const changeValue = trackingData.data.replace(/\D/g, "");
+    if (changeValue.startsWith('380')
+        && (changeValue.length === 12
+            || (trackingData.selectionStart < 3))) {
+        return changeValue.substring(3);
     }
-    if (nextState.value.match(/^\+38 \(00[1-9]\)/)) {
-        const value = nextState.value.replace(/^\+38 \(00([1-9])\)/, '+38 (0$1)');
-        return {
-            value,
-            selection: { start: 7, end: 7, }
-        };
+    if (changeValue.startsWith('0') && changeValue.length === 10 && trackingData.selectionStart < 3) {
+        return changeValue.substring(1);
     }
-    return nextState;
+    return trackingData.data;
+};
+const mask = "+38 (0__) ___-__-__";
+const replacement = {
+    "_": /\d/,
 };
 const PhoneInputDefaultProps = Object.freeze({
-    beforeMaskedValueChange,
-    mask: "+38 (099) 999-99-99",
-    alwaysShowMask: false,
+    mask, replacement, track,
+    showMask: false,
     inputMode: "tel",
 });
 const PhoneInput = React.forwardRef((props, ref) => {
-    return (React.createElement(InputMask, Object.assign({ maskChar: null }, props, PhoneInputDefaultProps)));
+    return (React.createElement(InputMask, Object.assign({}, props, PhoneInputDefaultProps, { ref: ref })));
 });
 
-export { PhoneInput, PhoneInputDefaultProps, beforeMaskedValueChange };
+export { PhoneInput, PhoneInputDefaultProps };

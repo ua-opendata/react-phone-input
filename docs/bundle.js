@@ -1,42 +1,34 @@
-import * as React from 'https://esm.sh/react@18/?dev';
-import * as ReactDOM from 'https://esm.sh/react-dom@18/client?dev';
-import InputMask from 'https://esm.sh/react-input-mask@2?dev';
+import * as React from 'https://esm.sh/react@19/?dev';
+import * as ReactDOM from 'https://esm.sh/react-dom@19/client?dev';
+import { InputMask } from 'https://esm.sh/@react-input/mask@2?dev';
 import * as helper from 'https://esm.sh/dom-event-simulate@1.2.1?dev';
 
-const beforeMaskedValueChange = (nextState, prevState, userInput, maskOptions) => {
-    if (userInput) {
-        const match = userInput.replace(/\D/g, '').match(/^(?:38)?0(\d{1,9})/);
-        if (match && "string" === typeof maskOptions.mask) {
-            const userNumbers = match[1].split('');
-            return Object.assign(Object.assign({}, nextState), { value: maskOptions.mask.replace(/9/g, (s) => {
-                    const userNumber = userNumbers.shift();
-                    return (userNumber === undefined) ? s : userNumber;
-                }) });
-        }
+const track = (trackingData) => {
+    if (trackingData.inputType !== "insert") {
+        return trackingData.data;
     }
-    if (nextState.value.match(/^\+38 \(038\)/)) {
-        return {
-            value: '',
-            selection: { start: 7, end: 7, }
-        };
+    const changeValue = trackingData.data.replace(/\D/g, "");
+    if (changeValue.startsWith('380')
+        && (changeValue.length === 12
+            || (trackingData.selectionStart < 3))) {
+        return changeValue.substring(3);
     }
-    if (nextState.value.match(/^\+38 \(00[1-9]\)/)) {
-        const value = nextState.value.replace(/^\+38 \(00([1-9])\)/, '+38 (0$1)');
-        return {
-            value,
-            selection: { start: 7, end: 7, }
-        };
+    if (changeValue.startsWith('0') && changeValue.length === 10 && trackingData.selectionStart < 3) {
+        return changeValue.substring(1);
     }
-    return nextState;
+    return trackingData.data;
+};
+const mask = "+38 (0__) ___-__-__";
+const replacement = {
+    "_": /\d/,
 };
 const PhoneInputDefaultProps = Object.freeze({
-    beforeMaskedValueChange,
-    mask: "+38 (099) 999-99-99",
-    alwaysShowMask: false,
+    mask, replacement, track,
+    showMask: false,
     inputMode: "tel",
 });
 const PhoneInput = React.forwardRef((props, ref) => {
-    return (React.createElement(InputMask, Object.assign({ maskChar: null }, props, PhoneInputDefaultProps)));
+    return (React.createElement(InputMask, Object.assign({}, props, PhoneInputDefaultProps, { ref: ref })));
 });
 
 /*! *****************************************************************************
@@ -99,6 +91,9 @@ const TestCaseElement = ({ value }) => {
 };
 const TestList = ({ input }) => {
     const [tests, setTests] = React.useState(TestCaseCollection);
+    if (!input) {
+        return;
+    }
     const handleTest = () => __awaiter(void 0, void 0, void 0, function* () {
         for (let k in tests) {
             const test = yield tests[k].run(input);
@@ -123,9 +118,9 @@ const App = () => {
             React.createElement("h4", { className: "mb-3" }, "Awesome Ukranian Phone Input"),
             React.createElement("div", { className: "form-group" },
                 React.createElement("label", { htmlFor: "phone-input" }),
-                React.createElement(PhoneInput, { className: "form-control", id: "phone-input", name: "phone", autoComplete: "on", autoFocus: true, inputRef: setInput })),
+                React.createElement(PhoneInput, { className: "form-control", id: "phone-input", name: "phone", autoComplete: "on", autoFocus: true, ref: (i) => setInput(i) })),
             React.createElement("button", { type: "submit", className: "btn btn-outline-secondary" }, "Submit")),
-        input && React.createElement(TestList, { input: input }));
+        React.createElement(TestList, { input: input }));
 };
 const root = ReactDOM.createRoot(document.querySelector('#app'));
 root.render(React.createElement(App, null));
