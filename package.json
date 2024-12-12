@@ -1,6 +1,6 @@
 {
   "name": "@ua-opendata/react-phone-input",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "type": "module",
   "description": "React Phone Input for ukranian phone mask",
   "main": "dist/index.js",
