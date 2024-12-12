@@ -2,7 +2,6 @@ import * as React from "react";
 import * as ReactDOM from 'react-dom/client';
 import {PhoneInput} from "../src";
 import {TestList} from "./test-list";
-import {InputMask} from "@react-input/mask";
 
 const App: React.FC<{}> = () => {
     const [input, setInput] = React.useState<HTMLInputElement | null>(null);

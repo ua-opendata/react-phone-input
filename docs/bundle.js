@@ -16,6 +16,9 @@ const track = (trackingData) => {
     if (changeValue.startsWith('0') && changeValue.length === 10 && trackingData.selectionStart < 3) {
         return changeValue.substring(1);
     }
+    if ((changeValue === '3' || changeValue === '8' || changeValue == '0') && trackingData.selectionStart < 3) {
+        return changeValue.substring(1);
+    }
     return trackingData.data;
 };
 const mask = "+38 (0__) ___-__-__";
@@ -24,6 +27,7 @@ const replacement = {
 };
 const PhoneInputDefaultProps = Object.freeze({
     mask, replacement, track,
+    placeholder: mask,
     showMask: false,
     inputMode: "tel",
 });

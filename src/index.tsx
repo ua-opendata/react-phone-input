@@ -17,6 +17,9 @@ const track: Track = (trackingData: TrackingData) => {
     if (changeValue.startsWith('0') && changeValue.length === 10 && trackingData.selectionStart < 3) {
         return changeValue.substring(1);
     }
+    if ((changeValue === '3' || changeValue === '8' || changeValue == '0') && trackingData.selectionStart < 3) {
+        return changeValue.substring(1);
+    }
     return trackingData.data;
 }
 const mask: string = "+38 (0__) ___-__-__";
@@ -27,6 +30,7 @@ const replacement: Replacement = {
 export type PhoneInputDefaultProps = Pick<InputMaskProps, "mask" | "showMask" | "track" | "inputMode" | "replacement">;
 export const PhoneInputDefaultProps: PhoneInputDefaultProps = Object.freeze({
     mask, replacement, track,
+    placeholder: mask,
     showMask: false,
     inputMode: "tel",
 });
